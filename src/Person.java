@@ -1,4 +1,7 @@
+import lombok.Data;
+
 //Этот класс описывает человека и содержит его основные свойства.
+@Data
 public class Person {
     private String name;
     private String surname;

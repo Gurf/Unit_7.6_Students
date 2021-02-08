@@ -1,7 +1,12 @@
+import lombok.Data;
+
+
 import java.util.Objects;
 
 //Student (наследник Person)
 /*класс описывает студента и логику для работы с ним*/
+
+
 public class Student extends Person {
 
     private int taskQuantity;//Количество решенных задач
@@ -10,15 +15,28 @@ public class Student extends Person {
     private boolean all_welldone;//Флаг, что студент решил все задания
     private Discipline course;
 
+
     /*Конструктор для всех полей, кроме количества решенных задач
     (оно для каждого нового студента равно 0)*/
-    public Student(String name, String surname, int age, /*int taskQuantity,*/ Mentor mentor, boolean all_welldone/*, Discipline course*/) {
+    public Student(String name, String surname, int age,  Mentor mentor, boolean all_welldone,Discipline course) {
+
+
+    this(name, surname, age, 0, mentor, all_welldone, Discipline.JAVA);
+
+    }
+
+    public Student(String name, String surname, int age,int taskQuantity, Mentor mentor, boolean all_welldone, Discipline course) {
         super(name, surname, age);
-        this.taskQuantity = 0;
+        this.taskQuantity = taskQuantity;
         this.mentor = mentor;
         this.all_welldone = all_welldone;
-        this.course = Discipline.JAVA;
+        this.course = course;
+
     }
+
+
+
+
 
 
     /*private static void solveTask() {
@@ -27,7 +45,6 @@ public class Student extends Person {
 
         System.out.println("Задач: " + sumOfTasks);
     }*/
-
 
     public int getTaskQuantity() {
         return taskQuantity;
@@ -69,7 +86,7 @@ public class Student extends Person {
         this.course = course;
     }
 
-//    Решить задачи
+    //    Решить задачи
     /*Аргументы: Число задач типа int
     и массив с заданиями типа Task*/
     public void tasksToSolve(int tasksNumber, Task[] tasks) {
@@ -80,7 +97,7 @@ public class Student extends Person {
 ➜ Иначе напечатать сообщение о том, что не все задачи решены и вернуть false*/
     }
 
-//    Решить задачу
+    //    Решить задачу
     private void taskToSolve(Task task) {
         /*Если задание проверяется автоматически, то напечатать сообщение о том, что задание выполнено и закончить работу метода
         Иначе у текущего отправлять ментору задание на проверку до тех пор, пока оно не будет зачтено
