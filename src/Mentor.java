@@ -5,22 +5,38 @@ import java.util.Random;
 отвечает на вопросы и делится дополнительными материалами.*/
 public class Mentor extends Person implements Staff {
     private boolean mood;//настроение ментора
-    private static Random constant_random;//Константа рандома
+    private static final int CONSTANT_RANDOM = 3500;//Константа рандома
 
     /*По умолчанию вызывает родительский конструктор
     и присваивает ментору хорошее настроение*/
-    public Mentor(String name, String surname, int age) {
-        super(name, surname, age);
+    public Mentor(String name, int age) {
+        super(name, age);
         this.mood = true;//конструктор по умолчанию присваивает ментору хорошее настроение
     }
 
-//    Помочь студенту (переопределяет метод из интерфейса)
-//Напечатать приободряющее сообщение, в сообщении должно быть имя студента
-    @Override
-    public void helpToStudent(/*ссылка на студента??*/) {
-        System.out.println("Сконцентрируйся");
+    public static int getConstantRandom() {
+        return CONSTANT_RANDOM;
     }
 
+    /*public Mentor(String name, int age, boolean mood) {
+        super(name, age);
+        this.mood = mood;
+    }*/
+
+    public boolean isMood() {
+        return mood;
+    }
+
+    public void setMood(boolean mood) {
+        this.mood = mood;
+    }
+    //    Помочь студенту (переопределяет метод из интерфейса)
+//Напечатать приободряющее сообщение, в сообщении должно быть имя студента
+
+    @Override
+    public void helpToStudent(Student student) {
+        System.out.println(student.getName() + ", cконцентрируйтесь,у Вас все получится!");
+    }
     //    Проверить код
    /* Логика работы
 ➜ В начале метода рандомно генерируется какое-то число, если это число больше 1000, то настроение у ментора хорошее,
@@ -29,17 +45,22 @@ public class Mentor extends Person implements Staff {
             Должно быть напечатано сообщение о том, что задача (в сообщении указать номер задачи) не принято
             и вернуть false.
             ➜ Иначе напечатать сообщение о том, что задача принята и вернуть true.*/
-    private static boolean checkCode(Task zadanie) {
-//Random используется для генерации случайных чисел
+
+    private static boolean randomMood(int constan) {
         Random random = new Random();
-        random.nextInt(); //любое случайное число
-//    random.nextInt(5); //случайное число не больше 5
-//Ниже показано, как сгенерировать случайное число в интервале от 100 до 200
-        int min = 100;
-        int max = 3500;
-        int diff = max - min;
-        int i = random.nextInt(diff + 1);
-        i += min;
-        return (i > 1000);
+        constan = random.nextInt(constan + 1);
+        return (constan > 1000);
+    }
+
+    public boolean checkCode(Task zadanie, int forMoodCreation) {
+//Random используется для генерации случайных чисел
+        System.out.println("Meнтор "+this.getName()+" проверяет код");
+        setMood(randomMood(forMoodCreation));
+        if (isMood() == false) {
+            System.out.println("Задание № " + zadanie.getNumber() + " не принято!");
+        } else {
+            System.out.println("Задание № " + zadanie.getNumber() + "  принято!");
+        }
+        return isMood();
     }
 }
