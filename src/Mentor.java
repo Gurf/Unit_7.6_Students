@@ -18,10 +18,6 @@ public class Mentor extends Person implements Staff {
         return CONSTANT_RANDOM;
     }
 
-    /*public Mentor(String name, int age, boolean mood) {
-        super(name, age);
-        this.mood = mood;
-    }*/
 
     public boolean isMood() {
         return mood;
@@ -30,9 +26,9 @@ public class Mentor extends Person implements Staff {
     public void setMood(boolean mood) {
         this.mood = mood;
     }
-    //    Помочь студенту (переопределяет метод из интерфейса)
-//Напечатать приободряющее сообщение, в сообщении должно быть имя студента
 
+    //Помочь студенту (переопределяет метод из интерфейса)
+//Напечатать приободряющее сообщение, в сообщении должно быть имя студента
     @Override
     public void helpToStudent(Student student) {
         System.out.println(student.getName() + ", cконцентрируйтесь,у Вас все получится!");
@@ -47,19 +43,20 @@ public class Mentor extends Person implements Staff {
             ➜ Иначе напечатать сообщение о том, что задача принята и вернуть true.*/
 
     private static boolean randomMood(int constan) {
-        Random random = new Random();
-        constan = random.nextInt(constan + 1);
-        return (constan > 1000);
+        return (Main.genRendom(0, constan) > 1000);
     }
 
-    public boolean checkCode(Task zadanie, int forMoodCreation) {
+
+    public boolean checkCode(Task zadanie, int forMoodCreation, Student student) {
 //Random используется для генерации случайных чисел
-        System.out.println("Meнтор "+this.getName()+" проверяет код");
+        System.out.println("Meнтор " + this.getName() + " проверяет код который написал(а) " + student.getName());
         setMood(randomMood(forMoodCreation));
-        if (isMood() == false) {
+        if (!isMood()) {
             System.out.println("Задание № " + zadanie.getNumber() + " не принято!");
+            helpToStudent(student);
+            giveAddInforfation();
         } else {
-            System.out.println("Задание № " + zadanie.getNumber() + "  принято!");
+            System.out.println("Задание № " + zadanie.getNumber() + "  принято ментором " + this.getName() + "!");
         }
         return isMood();
     }

@@ -6,17 +6,17 @@ abstract class Task {
     private String zadaniye;
 
     /*Конструктор по умолчанию присваивает полям значение 0 и любой текст*/
-    /*public Task() {
+    public Task() {
         this.number = 0;
         this.zadaniye = "Решите задачу, опираясь на изученный материал";
-    }*/
+    }
 
     public Task(int number, String zadaniye) {
         this.number = number;
         this.zadaniye = zadaniye;
     }
 
-    public abstract void someTask();
+    public abstract void someTask(Student student);
 
     @Override
     public String toString() {

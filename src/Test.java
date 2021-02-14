@@ -17,8 +17,8 @@ public class Test extends Task implements Autochecked {
     }*/
 
     @Override
-    public void someTask() {
-        System.out.println("Задание № " + this.getNumber() + " (Test) выполняется");
+    public void someTask(Student student) {
+        System.out.println("Задание № " + this.getNumber() + " (Test) выполняется студентом "+student.getName());
         checkTaskAutomatically();
     }
 

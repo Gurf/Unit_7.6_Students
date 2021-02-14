@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Random;
 
 public class Main {
@@ -7,19 +6,12 @@ public class Main {
         Task[] listOfTasks = new Task[45];
         for (int i = 1; i < 46; i++) {
             if (i % 3 == 0) {
-                listOfTasks[i - 1] = new Test(i, "Решите тест № " + i + ", опираясь на изученный материал");
+                listOfTasks[i - 1] = new Test(i, "\"Решите тест № " + i + ", опираясь на изученный материал\"");
             } else if (i % 2 == 0) {
-                listOfTasks[i - 1] = new DragAndDrop(i, "Решите задание № " + i + ", опираясь на изученный материал");
+                listOfTasks[i - 1] = new DragAndDrop(i, "\"Решите задание № " + i + "(Drag and drop), опираясь на изученный материал\"");
             } else
-                listOfTasks[i - 1] = new Code(i, "Напишите код по заданию № " + i + ", опираясь на изученный материал");
+                listOfTasks[i - 1] = new Code(i, "\"Напишите код по заданию № " + i + ", опираясь на изученный материал\"");
         }
-        /*System.out.println(Arrays.toString(listOfTasks));
-        for (Task task:listOfTasks
-             ) {
-            if (task instanceof Test) {
-                System.out.println("Задание "+task.getNumber()+" это тест!");
-            }
-        }*/
         //Создаем массив с менторами
         Mentor[] listOfMentors = {
                 new Mentor("Виталий Недотепов", 35),
@@ -39,24 +31,29 @@ public class Main {
                 new Student("Дмитрий Яковлев", 24, listOfMentors[1]),
                 new Student("Анна Егорова", 25, listOfMentors[2]),
         };
-        listOfMentors[0].helpToStudent(listOfStudents[0]);
-        System.out.println(listOfMentors[2].getName());
-        Student.setSumOfTasks(Student.getSumOfTasks()+1);
-        System.out.println(Student.getSumOfTasks());
-       if (listOfMentors[1].checkCode(listOfTasks[0],Mentor.getConstantRandom()));
+        System.out.println("Всего задач, которые должены решить все студенты: " + listOfStudents.length * listOfTasks.length);
+        System.out.println("Всего задач, которые должен решить каждый студент: " + listOfTasks.length);
+        //Все в цикле пока все студенты не решат все задачи
+        // (т.е. пока Student.sumOfTasks<=listOfStudents.length*listOfTasks.length)
+        while (Student.getSumOfTasks() < listOfStudents.length * listOfTasks.length) {
+            for (Student student: listOfStudents) {
+                if (student.isAll_welldone()) continue;
+                int tempTasks = genRendom(1, listOfTasks.length - student.getTaskQuantity());
+                System.out.println("Студент " + student.getName() + " получил блок из " + tempTasks + " заданий!");
+                student.tasksToSolve(tempTasks, listOfTasks);
+            }
+        }
+        System.out.println("Ура! Студенты решили все задачи!!");
 
-        Random random = new Random();
-
-//    random.nextInt(5); //случайное число не больше 5
-//Ниже показано, как сгенерировать случайное число в интервале от 100 до 200
-        /*int min = 100;
-        int max = 3500;
-        int diff = max - min;*/
-        int i = random.nextInt(3500 + 1);
-//        i += min;
-
-        System.out.println(i);
-        System.out.println(i > 1000);
 
     }
+//Метод рендома от минимума до максимума
+    public static int genRendom(int a_min, int a_max) {
+        Random random = new Random();
+        int diff = a_max -a_min;
+        int out = random.nextInt(diff + 1);
+        out += a_min;
+        return out;
+    }
+
 }

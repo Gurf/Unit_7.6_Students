@@ -1,8 +1,3 @@
-import lombok.Data;
-
-
-import java.util.Objects;
-
 //Student (наследник Person)
 /*класс описывает студента и логику для работы с ним*/
 
@@ -19,10 +14,7 @@ public class Student extends Person {
     /*Конструктор для всех полей, кроме количества решенных задач
     (оно для каждого нового студента равно 0)*/
     public Student(String name, int age, Mentor mentor) {
-
-
         this(name, age, 0, mentor, false, Discipline.JAVA);
-
     }
 
     public Student(String name, int age, int taskQuantity, Mentor mentor, boolean all_welldone, Discipline course) {
@@ -52,7 +44,6 @@ public class Student extends Person {
     }
 
 
-
     public Mentor getMentor() {
         return mentor;
     }
@@ -78,16 +69,6 @@ public class Student extends Person {
     }
 
 
-
-
-
-    /*private static void solveTask() {
-        System.out.println("Задание решено!");
-        sumOfTasks++;
-
-        System.out.println("Задач: " + sumOfTasks);
-    }*/
-
     //    Решить задачи
     /*Аргументы: Число задач типа int
     и массив с заданиями типа Task*/
@@ -95,18 +76,20 @@ public class Student extends Person {
         /*Студенту передаётся число задач, которые он должен решить и ссылка на массив с заданиями
 ➜ У студента есть количество задач, которые он уже решил, а значит вы можете вычислить, с какой задачи начинать решение.*/
         int nom = getTaskQuantity();
-//➜ Для решения задач студент вызывает метод Решить задачу.
-        taskToSolve(tasks[nom]);
+//➜ Для решения задач студент вызывает метод Решить задачу (в цикле).
+        for (int i = nom; i < nom + tasksNumber; i++) {
+            taskToSolve(tasks[i]);
 //➜ Если студент решил все задачи из массива, то напечатать об этом сообщение и выставить true в соответствующее поле
-        if (nom == tasksNumber) {
-            System.out.println("Студент " + getName() + " решил все задачи!");
-            setAll_welldone(true);
-        }
+            if (getTaskQuantity() == tasks.length) {
+                System.out.println("Студент " + getName() + " решил все задачи!");
+                setAll_welldone(true);
+            }
 //➜ Иначе напечатать сообщение о том, что не все задачи решены и вернуть false
-        else {
-            System.out.println("У студента " + getName() + " остались нерешенные задачи!");
-            setAll_welldone(false);
+            else {
+                System.out.println("У студента " + getName() + " остались нерешенные задачи!");
+            }
         }
+
 
     }
 
@@ -115,14 +98,20 @@ public class Student extends Person {
         /*Если задание проверяется автоматически, то напечатать сообщение о том, что задание выполнено и закончить работу метода
         Иначе у текущего отправлять ментору задание на проверку до тех пор, пока оно не будет зачтено
         Не забудьте увеличить число решенных студентом и всеми студентами задач*/
-        if (task instanceof Autochecked) {
-            task.someTask();
-            System.out.println("Задание выполнено");
-            setTaskQuantity(getTaskQuantity() + 1);
-            Student.sumOfTasks++;
+        System.out.println("Очередное задание студента "+getName()+": "+task.getZadaniye());
+        task.someTask(this);
+        if (!(task instanceof Autochecked)) {
+            boolean notComplete;
+            do {
+                notComplete = !(mentor.checkCode(task, Mentor.getConstantRandom(), this));
+            } while (notComplete);
         }
-        else{
 
-        }
+
+        setTaskQuantity(getTaskQuantity() + 1);
+        Student.sumOfTasks++;
+        System.out.println("Студент " + getName() + " решил задач: " + getTaskQuantity());
+        System.out.println("Всеми студентами решено задач: " + sumOfTasks);
     }
+
 }

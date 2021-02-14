@@ -22,7 +22,6 @@ public class Person {
         this.name = name;
     }
 
-
     public int getAge() {
         return age;
     }
