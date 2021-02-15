@@ -7,4 +7,13 @@ public class Code extends Task {
         super(number, zadaniye);
         this.textOfCode = "int a = new int";
     }
+
+
+
+    @Override
+    public void someTask(Student student) {
+        System.out.println("Задание № " + this.getNumber() + " написать код выполняется студентом "+student.getName());
+    }
+
+
 }
